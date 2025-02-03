@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="msvc-items" />
+        <module name="GatewayServer-App" />
         <module name="msvc-products" />
         <module name="EurekaServer-App" />
       </profile>
@@ -15,6 +16,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="EurekaServer-App" options="-parameters" />
+      <module name="GatewayServer-App" options="-parameters" />
       <module name="msvc-items" options="-parameters" />
       <module name="msvc-products" options="-parameters" />
     </option>

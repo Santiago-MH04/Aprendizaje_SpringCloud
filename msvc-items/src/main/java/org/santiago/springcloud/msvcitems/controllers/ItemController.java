@@ -2,22 +2,24 @@ package org.santiago.springcloud.msvcitems.controllers;
 
 import org.santiago.springcloud.msvcitems.DTOentities.Item;
 import org.santiago.springcloud.msvcitems.services.abstractions.ItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
+@RequestMapping("/api/items")
 public class ItemController {
         //Atributos de ItemController
     private final ItemService itemService;  //Cuando se inyecta sin @Autowired hay que inyectar por constructor
     @Value("${config.provider-name}")
     private String providerName;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
         //Constructores de ItemController
     public ItemController(@Qualifier("webClient") ItemService itemService) {
@@ -28,7 +30,10 @@ public class ItemController {
     //Lectores de atributos de ItemController (getters)
         //Métodos de ItemController
     @GetMapping
-    public List<Item> listAllItems() {
+    public List<Item> listAllItems(@RequestParam(name = "name", required = false) String name,
+                                   @RequestHeader(name = "token-request", required = false) String token) {
+        this.logger.info(String.format("%s: %s", "parameter", name));
+        this.logger.info(String.format("%s: %s", "request-token", token));
         return this.itemService.findAll();
     }
     /*@GetMapping("/{id}")  //Preguntar a Bryan por una posible razón

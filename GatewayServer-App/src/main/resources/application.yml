@@ -1,0 +1,30 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: msvc-products
+        uri: lb://msvc-products
+        predicates:
+        - Path=/api/products/**
+#        - Header=token, ^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$
+#        - Method=GET, POST
+#        - Query=color, verde  #Si no se envía el parámetro «color» con el valor «azul», se arroja un 404
+#        - Cookie=color, azul
+        filters:
+#        - StripPrefix=2
+        - name: SampleCookie #Va sólo el prefijo del filtro personalizado
+          args:
+            name: user-cookie
+            value: Santiago
+            message: pero mira qué mensaje personalizado tan bonito
+#        - ExempleCookie=user-cookie, Santiago, pero mira qué mensaje personalizado tan bonito
+      - id: msvc-items
+        uri: lb://msvc-items
+        predicates:
+        - Path=/api/items/**
+        filters:
+#        - StripPrefix=2
+        - AddRequestHeader=token-request, buajuajuajua
+        - AddResponseHeader=token-response, mambrú volviendo de la guerra
+        - AddRequestParameter=name, QuesoColo
+        - SetResponseHeader=Content-Type, text/plain
