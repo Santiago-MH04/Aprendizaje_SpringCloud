@@ -1,11 +1,13 @@
 package org.santiago.springcloud.msvcitems.controllers;
 
 import org.santiago.springcloud.msvcitems.DTOentities.Item;
+import org.santiago.springcloud.msvcitems.DTOentities.ProductDTO;
 import org.santiago.springcloud.msvcitems.services.abstractions.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +22,12 @@ public class ItemController {
     @Value("${config.provider-name}")
     private String providerName;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
         //Constructores de ItemController
-    public ItemController(@Qualifier("webClient") ItemService itemService) {
+    public ItemController(@Qualifier("webClient") ItemService itemService, CircuitBreakerFactory circuitBreakerFactory) {
         this.itemService = itemService;
+        this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
     //Asignadores de atributos de ItemController (setters)
@@ -44,7 +48,15 @@ public class ItemController {
     }*/
         @GetMapping("/{id}")
         public ResponseEntity<?> findItemDetails(@PathVariable Long id) {
-            Optional<Item> itemOptional = this.itemService.findById(id);
+            /*Optional<Item> itemOptional = this.itemService.findById(id);*/
+            Optional<Item> itemOptional = this.circuitBreakerFactory.create("items")
+                                              .run(() -> this.itemService.findById(id),
+                                          e ->  {
+                                                        this.logger.error(e.getMessage());
+                                                        ProductDTO product = new ProductDTO(1L, "Aguacate maduro", 3500D, "Qué belleza de aguacate");
+                                                        return Optional.of(new Item(product, 4));
+                                                   }
+                                              );
             if(itemOptional.isPresent()) {
                 return ResponseEntity.ok(itemOptional.get());
             } else {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("api/products")
@@ -31,7 +32,15 @@ public class ProductController {
         return this.productService.findAll();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Product> findProductById(@PathVariable Long id) {
+    public ResponseEntity<Product> findProductById(@PathVariable Long id) throws InterruptedException {
+            //Simulemos un error ahí bien tirado
+        if(id.equals(10L)) {
+            throw new IllegalStateException("Buscar este producto, arroja un error");
+        }
+            //Simular una demora ahí bien tirada
+        if(id.equals(7L)) {
+            TimeUnit.SECONDS.sleep(5L);
+        }
         return this.productService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
