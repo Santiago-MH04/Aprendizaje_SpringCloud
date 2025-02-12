@@ -45,7 +45,7 @@ public class ItemServiceWebClientImpl implements ItemService {
     public Optional<Item> findById(long id) {
         Map<String, Long> params = new HashMap<>();
             params.put("id", id);
-        try {
+        /*try {*/
             Item searchResult = this.webClient.build()
                     .get()  //Porque se trata de un método GET
                     .uri("/api/products/{id}", params)   //Así se puebla tratándose de un @PathVariable
@@ -56,8 +56,8 @@ public class ItemServiceWebClientImpl implements ItemService {
                     .block();
 
             return Optional.of(searchResult);   //Si a estas alturas no ha captado la excepción, no es necesario que sea ofNullable
-        } catch (WebClientResponseException e) {
+        /*} catch (WebClientResponseException e) {
             return Optional.empty();
-        }
+        }*/
     }
 }

@@ -47,7 +47,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -78,6 +77,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
         </dependency>
+            <!--Esta dependencia es para que el cortocircuito funcione mediante anotaciones-->
+        <dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>3.4.2</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -99,5 +105,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

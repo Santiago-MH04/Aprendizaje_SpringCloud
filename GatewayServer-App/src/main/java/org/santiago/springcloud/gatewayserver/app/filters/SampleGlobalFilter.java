@@ -57,8 +57,6 @@ public class SampleGlobalFilter implements GlobalFilter, Ordered {
                 }
                 this.logger.info("Ejecutando el filtro después de cualquier request (POST-)");
 
-
-
                 Optional.ofNullable(mutatedExchange.getRequest().getHeaders().getFirst("token")).ifPresent(
                     t -> {
                         this.logger.info("token 2: {}", t);
@@ -71,7 +69,7 @@ public class SampleGlobalFilter implements GlobalFilter, Ordered {
                                 "color",
                                 ResponseCookie.from("color", "rojo").build()
                             );
-                    response.getHeaders().setContentType(MediaType.TEXT_PLAIN); //Es para un ejemplo. El estándar sigue siendo JSON
+                    response.getHeaders().setContentType(MediaType.APPLICATION_JSON); /*MediaType.TEXT_PLAIN*/ //Es para un ejemplo. El estándar sigue siendo JSON
             })
         );
     }

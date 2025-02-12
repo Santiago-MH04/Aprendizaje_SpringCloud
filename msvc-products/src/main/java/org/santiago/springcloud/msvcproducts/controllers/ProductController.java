@@ -33,13 +33,11 @@ public class ProductController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<Product> findProductById(@PathVariable Long id) throws InterruptedException {
-            //Simulemos un error ahí bien tirado
+            //Simulemos pues unos errores bien tirados
         if(id.equals(10L)) {
-            throw new IllegalStateException("Buscar este producto, arroja un error");
-        }
-            //Simular una demora ahí bien tirada
-        if(id.equals(7L)) {
-            TimeUnit.SECONDS.sleep(5L);
+            throw new IllegalStateException(String.format("Buscar el producto con id %d, arroja un error simulado", id));
+        } else if(id.equals(7L)) {
+            TimeUnit.SECONDS.sleep(3L); //En Spring Cloud, el tiempo de espera por defecto es de 1 s
         }
         return this.productService.findById(id)
                 .map(ResponseEntity::ok)
