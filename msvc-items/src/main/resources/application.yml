@@ -19,3 +19,18 @@ resilience4j:
     instances:
       items: #Busca el circuit breaker con nombre items (está en ItemController)
         base-config: default  #Asigna la configuración de nombre default en la instancia llamada items
+
+  #Según la documentación oficial de Spring, el archivo bootstrap.properties, ya no está recomendado, por lo que pego aquí la configuración externa
+  #Sería la misma jerarquía del bootstrap.properties, y otra pendejadita
+  #De la misma manera, esto se puede enviar al application.properties, con la misma bobadita, pero sin la url (spring.config.import=optional:configserver:)
+  #profiles.active para activar al proyecto en este perfil particular (default, dev, prod)
+#spring:
+#  application:
+#    name: msvc-items
+#  cloud:
+#    config:
+#      uri: http://127.0.0.1:8888
+#  config:
+#    import: optional:configserver:http://127.0.0.1:8888
+#  profiles:
+#    active: prod

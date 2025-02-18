@@ -35,9 +35,9 @@ spring:
 #        - StripPrefix=2
 #        - ExempleCookie=user-cookie, Santiago, pero mira qué mensaje personalizado tan bonito
 #        - CircuitBreaker=products
-        - name: CircuitBreaker #Va sólo el prefijo del filtro personalizado
+        - name: CircuitBreaker #Tiene que ir este nombre (filtro de fábrica de Spring Framework)
           args:
-            name: products
+            name: products  #Este es el ID que le asigno a este cortocircuito
             statusCodes: 500  #Recordar que maneja varios
             fallbackUri: forward:/api/items/4 #De aquí la importancia de tener rutas libres relacionadas al microservicio que puede fallar. Mandarlo al mismo puede generar un bucle infinito
         - name: SampleCookie #Va sólo el prefijo del filtro personalizado

@@ -7,9 +7,12 @@ import org.santiago.springcloud.msvcitems.DTOentities.ProductDTO;
 import org.santiago.springcloud.msvcitems.services.abstractions.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
+@RefreshScope   //Para refrescar cualquier cambio en la inyección de dependencias en tiempo real
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
@@ -27,6 +31,13 @@ public class ItemController {
     private String providerName;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final CircuitBreakerFactory circuitBreakerFactory;
+            //Inyectemos un atributo desde la configuración externa
+    @Value("${configuration.text}")
+    private String text;
+            //Representación del perfil de configuraciones que se desea manejar
+    @Autowired
+    private Environment env;
+
 
         //Constructores de ItemController
     public ItemController(@Qualifier("webClient") ItemService itemService, CircuitBreakerFactory circuitBreakerFactory) {
@@ -37,6 +48,22 @@ public class ItemController {
     //Asignadores de atributos de ItemController (setters)
     //Lectores de atributos de ItemController (getters)
         //Métodos de ItemController
+    @GetMapping("/fetch-configs")
+    public ResponseEntity<?> fetchConfigs(@Value("${server.port}") String port){
+        Map<String, String> json = new HashMap<>();
+            json.put("text", this.text);    //Debe imprimir «setting development environment»
+            json.put("port", port); //Debe imprimir «8005»
+        this.logger.info(String.format("Imprimiendo un texto de configuración externo: '%s'", this.text));
+        this.logger.info(String.format("Puerto configuración externo: '%s'", port));
+
+        if(this.env.getActiveProfiles().length > 0 && this.env.getActiveProfiles()[0].equals("dev")){
+             json.put("author.name", env.getProperty("configuration.author.name"));
+             json.put("author.email", env.getProperty("configuration.author.email"));
+        }
+
+        return ResponseEntity.ok(json);
+    }
+
     @GetMapping
     public List<Item> listAllItems(@RequestParam(name = "name", required = false) String name,
                                    @RequestHeader(name = "token-request", required = false) String token) {
