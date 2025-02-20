@@ -55,7 +55,7 @@ public class Product {
 
 
 
-    //Lectores de atributos de Product (getters)
+        //Lectores de atributos de Product (getters)
     public Long getId() {
         return this.id;
     }

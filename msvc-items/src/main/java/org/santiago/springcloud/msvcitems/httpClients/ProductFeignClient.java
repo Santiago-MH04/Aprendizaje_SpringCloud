@@ -2,8 +2,7 @@ package org.santiago.springcloud.msvcitems.httpClients;
 
 import org.santiago.springcloud.msvcitems.DTOentities.ProductDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,4 +18,13 @@ public interface ProductFeignClient {
 
     @GetMapping("/{id}")
     public ProductDTO findProductDetailsById(@PathVariable Long id);
+
+    @PostMapping
+    public ProductDTO createProduct(@RequestBody ProductDTO productDTO);
+
+    @PutMapping("{id}")
+    public ProductDTO updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO);
+
+    @DeleteMapping
+    public void deleteProduct(@PathVariable Long id);
 }

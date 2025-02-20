@@ -50,12 +50,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(Product product) {
-        return null;
+        product.setPort(Integer.parseInt(this.environment.getProperty("local.server.port")));
+        return this.repoProduct.save(product);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-
+        this.repoProduct.deleteById(id);
     }
 }

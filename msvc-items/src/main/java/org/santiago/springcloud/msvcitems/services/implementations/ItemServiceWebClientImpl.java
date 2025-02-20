@@ -60,4 +60,53 @@ public class ItemServiceWebClientImpl implements ItemService {
             return Optional.empty();
         }*/
     }
+
+    @Override
+    public Item save(ProductDTO product) {
+        return this.webClient.build()
+                .post()  //Porque se trata de un método POST
+                .uri("/api/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(product)
+                .retrieve()
+                .bodyToMono(ProductDTO.class)
+                    //Transformar la instancia de ProductDTO en Item
+                .map(p -> new Item(p, new Random().nextInt(20) + 1))
+                .block();
+    }
+
+    @Override
+    public Item update(ProductDTO product, Long id) {
+        Map<String, Long> params = new HashMap<>();
+            params.put("id", id);
+        return this.webClient.build()
+                .put()  //Porque se trata de un método PUT
+                .uri("/api/products/{id}", params)   //Así se puebla tratándose de un @PathVariable
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)    //Porque vamos a recibir respuestas de tipo JSON
+                .bodyValue(product)
+                .retrieve()
+                .bodyToMono(ProductDTO.class)     //Recordar que WebClient es un tipo reactivo, y esta vez contiene un elemento
+                    //Transformar la instancia de ProductDTO en Item
+                .map(p -> {
+                    Item item = new Item();
+                        item.setProduct(p);
+                        item.setQuantity(new Random().nextInt(20) + 1);
+                    return item;
+                })
+                .block();
+    }
+
+    @Override
+    public void delete(Long id) {
+        Map<String, Long> params = new HashMap<>();
+            params.put("id", id);
+        this.webClient.build()
+                .delete()   //Porque se trata de un método DELETE
+                .uri("/api/products/{id}", params) //Así se puebla tratándose de un @PathVariable
+                .retrieve()
+                /*.toBodilessEntity()*/ //Hace lo mismo que .bodyToMono(Void.class)
+                .bodyToMono(Void.class) //Porque el método es vacío
+                .block();
+    }
 }

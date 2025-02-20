@@ -40,7 +40,8 @@ public class ItemController {
 
 
         //Constructores de ItemController
-    public ItemController(@Qualifier("webClient") ItemService itemService, CircuitBreakerFactory circuitBreakerFactory) {
+            /*También hay un itemService con @Qualifier("webClient")*/
+    public ItemController(@Qualifier("feignClient") ItemService itemService, CircuitBreakerFactory circuitBreakerFactory) {
         this.itemService = itemService;
         this.circuitBreakerFactory = circuitBreakerFactory;
     }
@@ -139,6 +140,37 @@ public class ItemController {
                     }
                 });
             }
+
+    @PostMapping
+    /*@ResponseStatus(HttpStatus.CREATED)*/ //Esta es una manera por anotaciones
+    public ResponseEntity<?> create(@RequestBody ProductDTO product){
+        try {
+            product.setCreatedAt(LocalDate.now());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(this.itemService.save(product));
+        } catch (Exception e) { //O me puedo inventar mi propia excepción
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al guardar el producto: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ProductDTO product){
+        return this.itemService.findById(id)
+                .map(i -> ResponseEntity.ok(this.itemService.update(product, id)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        return this.itemService.findById(id)
+                .map(i -> {
+                    this.itemService.delete(id);
+                    return ResponseEntity.noContent().build();
+                })
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
             //Los métodos de camino alternativo deben retornar el mismo tipo de elemento que los endpoints asociados
         //Camino alternativo mediante anotaciones (debe ser del mismo tipo que el método que lo invoca)

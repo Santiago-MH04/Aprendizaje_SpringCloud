@@ -44,4 +44,29 @@ public class ItemServiceFeignImpl implements ItemService {
             return Optional.empty();
         }
     }
+
+    @Override
+    public Item save(ProductDTO product) {
+        ProductDTO produit = this.httpClient.createProduct(product);
+        return new Item(produit, new Random().nextInt(20) + 1);
+    }
+
+    @Override
+    public Item update(ProductDTO product, Long id) {
+        Item item = new Item();
+        Optional<Item> itemOptional = this.findById(id);
+        if(itemOptional.isPresent()) {
+            ProductDTO producto = this.httpClient.updateProduct(id, product);
+                item.setProduct(producto);
+                item.setQuantity(new Random().nextInt(20) + 1);
+            return item;
+        }
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+        this.findById(id).ifPresent(i -> this.httpClient.deleteProduct(id));
+
+    }
 }

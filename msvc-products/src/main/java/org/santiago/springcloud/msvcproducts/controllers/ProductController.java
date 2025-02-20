@@ -4,10 +4,7 @@ import org.santiago.springcloud.msvcproducts.entities.Product;
 import org.santiago.springcloud.msvcproducts.services.abstractions.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,4 +41,40 @@ public class ProductController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Product product){
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(this.productService.save(product));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Product product){
+        return this.productService.findById(id)
+                    //Esto así tan bonito, porque hay cosas que, obvio bobis, no le podemos modificar a product
+                .map(p -> {
+                    if (product.getName() != null) {
+                        p.setName(product.getName());
+                    }
+                    if (product.getDescription() != null) {
+                        p.setDescription(product.getDescription());
+                    }
+                    if (product.getPrice() != null) {
+                        p.setPrice(product.getPrice());
+                    }
+
+                    return ResponseEntity.ok(this.productService.save(p));
+                })
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        return this.productService.findById(id)
+                .map(p -> {
+                    this.productService.deleteById(id);
+                    return ResponseEntity.noContent().build();
+                })
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 }
