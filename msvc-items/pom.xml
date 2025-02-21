@@ -101,6 +101,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+            <!--Para usar la clase Product como dependencia externa-->
+        <dependency>
+            <groupId>org.santiago.springcloud.libs.msvccommons</groupId>
+            <artifactId>libs-msvc-commons</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

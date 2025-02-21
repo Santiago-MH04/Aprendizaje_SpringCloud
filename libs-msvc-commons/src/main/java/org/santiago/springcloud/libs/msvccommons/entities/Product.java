@@ -1,4 +1,4 @@
-package org.santiago.springcloud.msvcproducts.entities;
+package org.santiago.springcloud.libs.msvccommons.entities;
 
 import jakarta.persistence.*;
 
@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "products")
-public class Product {  //No la voy a borrar, aunque voy a usar la dependencia externa
+public class Product {
         //Atributos de Product
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

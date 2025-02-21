@@ -4,12 +4,9 @@ import org.santiago.springcloud.msvcitems.DTOentities.Item;
 import org.santiago.springcloud.msvcitems.DTOentities.ProductDTO;
 import org.santiago.springcloud.msvcitems.services.abstractions.ItemService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClient.Builder;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.*;
 
@@ -55,7 +52,7 @@ public class ItemServiceWebClientImpl implements ItemService {
                     .map(p -> new Item(p, new Random().nextInt(20) + 1))
                     .block();
 
-            return Optional.of(searchResult);   //Si a estas alturas no ha captado la excepción, no es necesario que sea ofNullable
+            return Optional.ofNullable(searchResult);   //Decido dejarlo como Optional.ofNullable(), aunque no es necesario
         /*} catch (WebClientResponseException e) {
             return Optional.empty();
         }*/
