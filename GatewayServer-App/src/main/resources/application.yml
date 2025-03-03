@@ -55,3 +55,8 @@ spring:
         - AddResponseHeader=token-response, mambrú volviendo de la guerra
         - AddRequestParameter=name, QuesoColo
         - SetResponseHeader=Content-Type, text/plain  #application/json
+      - id: msvc-users
+        uri: lb://msvc-users
+        predicates:
+        - Path=/api/usagers/**
+        filters:  #De momento, no se le configura ningún filtro
