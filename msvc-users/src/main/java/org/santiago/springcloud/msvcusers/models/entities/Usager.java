@@ -1,5 +1,6 @@
 package org.santiago.springcloud.msvcusers.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -44,6 +45,7 @@ public class Usager {
     private boolean enabled;
 
     @Transient
+    @JsonIgnore
     private boolean admin;
 
     @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})  //Para evitar la relación circular. Si hago la relación bidireccional, debo añadir la tabla de los usuarios al arreglo, es decir, "users"

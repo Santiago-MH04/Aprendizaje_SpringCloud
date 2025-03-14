@@ -20,6 +20,30 @@ resilience4j:
         base-config: gateway_default  #Asigna la configuración de nombre gateway_default en la instancia llamada products
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:9100
+      client:
+        registration:
+          client-app:
+            provider: spring
+            client-id: gateway-app
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:8090/authorized
+            scope:
+            - openid
+            - profile
+#            - read
+#            - write
+            client-name: client-app
+        provider:
+          spring:
+            issuer-uri: http://127.0.0.1:9100
+
+
   cloud:
     gateway:
       routes:
@@ -60,3 +84,9 @@ spring:
         predicates:
         - Path=/api/usagers/**
         filters:  #De momento, no se le configura ningún filtro
+      - id: msvc-OAuth2
+        uri: lb://msvc-OAuth2
+        predicates:
+        - Path=/api/security/**
+        filters:
+        - StripPrefix=2

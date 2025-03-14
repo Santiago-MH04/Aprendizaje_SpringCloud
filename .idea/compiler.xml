@@ -13,6 +13,7 @@
         <module name="msvc-products" />
         <module name="msvc-items" />
         <module name="msvc-users" />
+        <module name="msvc-OAuth2" />
         <module name="libs-msvc-commons" />
         <module name="EurekaServer-App" />
       </profile>
@@ -24,6 +25,7 @@
       <module name="GatewayServer-App" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="libs-msvc-commons" options="-parameters" />
+      <module name="msvc-OAuth2" options="-parameters" />
       <module name="msvc-items" options="-parameters" />
       <module name="msvc-products" options="-parameters" />
       <module name="msvc-users" options="-parameters" />
