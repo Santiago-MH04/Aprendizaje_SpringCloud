@@ -1,6 +1,8 @@
 package org.santiago.springcloud.msvcoauth2.services;
 
-import org.santiago.springcloud.msvcoauth2.models.entities.Usager;
+/*import org.santiago.springcloud.msvcoauth2.models.entities.Usager;*/
+import org.santiago.springcloud.libs.msvccommons.entities.Usager;
+
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -45,7 +47,8 @@ public class UserService implements UserDetailsService {
 
                 //Transformar los roles en una colección de SimpleGrantedAuthority
             /*assert usager != null;*/
-            List<SimpleGrantedAuthority> authorities = usager.getRoles().stream()
+            List<SimpleGrantedAuthority> authorities = usager.getRoles()
+                .stream()
                 .map(r -> new SimpleGrantedAuthority(r.getName().toString()))
                 .toList();
                     /*.collect(Collectors.toList());*/

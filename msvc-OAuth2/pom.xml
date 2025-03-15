@@ -72,11 +72,18 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+			<!--Pendiente de borrar-->
 		<dependency>
 			<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
+		</dependency>
+			<!--Para obtener los usuarios y los roles de commons-->
+		<dependency>
+			<groupId>org.santiago.springcloud.libs.msvccommons</groupId>
+			<artifactId>libs-msvc-commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
