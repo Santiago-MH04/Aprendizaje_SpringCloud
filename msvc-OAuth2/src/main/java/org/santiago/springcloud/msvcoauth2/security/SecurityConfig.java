@@ -14,6 +14,8 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -24,10 +26,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+/*import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;*/
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -42,7 +48,6 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
@@ -50,7 +55,14 @@ import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 @Configuration
 @EnableWebSecurity  //Esta anotación no es estrictamente necesaria
 public class SecurityConfig {
-
+        //Atributos de SecurityConfig
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    //Constructores de SecurityConfig
+    //Asignadores de atributos de SecurityConfig (setters)
+    //Lectores de atributos de SecurityConfig (getters)
+        //Métodos de SecurityConfig
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -96,9 +108,9 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
+    /*@Bean
     public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.builder()    //El método /*.withDefaultPasswordEncoder()*/ anda obsoleto
+        UserDetails userDetails = User.builder()    //El método .withDefaultPasswordEncoder() anda obsoleto
                 .username("santiago")
                 .password("{noop}1234567890")
                 .roles("USER")
@@ -111,13 +123,14 @@ public class SecurityConfig {
                 .build();
 
         return new InMemoryUserDetailsManager(userDetails, adminDetails);
-    }
+    }*/
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("gateway-app")
-                .clientSecret("{noop}secret")
+                .clientSecret(this.passwordEncoder.encode("secret"))
+                    /*.clientSecret("{noop}secret")*/
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)

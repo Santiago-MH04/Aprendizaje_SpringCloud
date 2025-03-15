@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usagers")
@@ -43,12 +44,10 @@ public class UsagerController {
 
     @GetMapping("/username/{username}")
     public ResponseEntity<Usager> findUsagerByUsername(@PathVariable String username) throws NotFoundException{
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .body(this.usagerService.findByUsername(username)
-                        .orElseThrow(
-                            () -> new NotFoundException(String.format("El usuario con nombre %s no existe en nuestro sistema", username))
-                        )
-                );
+            //Se cambia para manejar el try-catch del método de autenticación
+        return this.usagerService.findByUsername(username)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
