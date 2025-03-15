@@ -1,6 +1,5 @@
 package org.santiago.springcloud.msvcoauth2.services;
 
-/*import org.santiago.springcloud.msvcoauth2.models.entities.Usager;*/
 import org.santiago.springcloud.libs.msvccommons.entities.Usager;
 
 import org.springframework.http.MediaType;
