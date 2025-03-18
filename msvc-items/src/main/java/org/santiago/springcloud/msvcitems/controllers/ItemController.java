@@ -68,8 +68,11 @@ public class ItemController {
     @GetMapping
     public List<Item> listAllItems(@RequestParam(name = "name", required = false) String name,
                                    @RequestHeader(name = "token-request", required = false) String token) {
-        this.logger.info(String.format("%s: %s", "parameter", name));
-        this.logger.info(String.format("%s: %s", "request-token", token));
+        this.logger.info("Llamada al método ItemController::listAllItems()");
+        this.logger.info("{}: {}", "parameter", name);
+        this.logger.info("{}: {}", "request-token", token);
+            /*this.logger.info(String.format("%s: %s", "parameter", name));
+            this.logger.info(String.format("%s: %s", "request-token", token));*/
         return this.itemService.findAll();
     }
     /*@GetMapping("/{id}")  //Preguntar a Bryan por una posible razón
@@ -145,6 +148,7 @@ public class ItemController {
     /*@ResponseStatus(HttpStatus.CREATED)*/ //Esta es una manera por anotaciones
     public ResponseEntity<?> create(@RequestBody ProductDTO product){
         try {
+            this.logger.info("Creando producto {}", product.getName());
             product.setCreatedAt(LocalDate.now());
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(this.itemService.save(product));
@@ -157,6 +161,7 @@ public class ItemController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ProductDTO product){
+        this.logger.info("Actualizando producto {}", product.getName());
         return this.itemService.findById(id)
                 .map(i -> ResponseEntity.ok(this.itemService.update(product, id)))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -166,6 +171,7 @@ public class ItemController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return this.itemService.findById(id)
                 .map(i -> {
+                    this.logger.info("Eliminando producto {}", i.getProduct().getName());
                     this.itemService.delete(id);
                     return ResponseEntity.noContent().build();
                 })

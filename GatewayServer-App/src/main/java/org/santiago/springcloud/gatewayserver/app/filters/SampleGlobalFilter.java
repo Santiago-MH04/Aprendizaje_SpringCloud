@@ -39,8 +39,8 @@ public class SampleGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
 
         ServerHttpRequest mutatedRequest = request.mutate()
-                .headers(h -> h.add("token", "abcdefg"))
-                .build();
+            .headers(h -> h.add("token", "abcdefg"))
+            .build();
         ServerWebExchange mutatedExchange = exchange.mutate().request(mutatedRequest).build();
 
 
@@ -65,10 +65,10 @@ public class SampleGlobalFilter implements GlobalFilter, Ordered {
                 );
 
                     response.getCookies()
-                            .add(
-                                "color",
-                                ResponseCookie.from("color", "rojo").build()
-                            );
+                        .add(
+                            "color",
+                            ResponseCookie.from("color", "rojo").build()
+                        );
                     response.getHeaders().setContentType(MediaType.APPLICATION_JSON); /*MediaType.TEXT_PLAIN*/ //Es para un ejemplo. El estándar sigue siendo JSON
             })
         );

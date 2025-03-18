@@ -2,6 +2,8 @@ package org.santiago.springcloud.msvcoauth2.services;
 
 import org.santiago.springcloud.libs.msvccommons.entities.Usager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
         //Atributos de UserService
     private final WebClient.Builder webClient;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
         //Constructores de UserService
     public UserService(WebClient.Builder webClient) {
@@ -36,6 +39,7 @@ public class UserService implements UserDetailsService {
             params.put("username", username);
         try {
                 //Obtener el usuario de base de datos con WebClient
+            this.logger.info("Ingresando al método UserService::loadUserByUsername");
             Usager usager = this.webClient.build()
                 .get()
                 .uri("/api/usagers/username/{username}", params)
@@ -46,12 +50,14 @@ public class UserService implements UserDetailsService {
 
                 //Transformar los roles en una colección de SimpleGrantedAuthority
             /*assert usager != null;*/
+            this.logger.info("En el método UserService::loadUserByUsername, cargando los roles del usuario autenticado");
             List<SimpleGrantedAuthority> authorities = usager.getRoles()
                 .stream()
                 .map(r -> new SimpleGrantedAuthority(r.getName().toString()))
                 .toList();
                     /*.collect(Collectors.toList());*/
 
+            this.logger.info("En el método UserService::loadUserByUsername, vamos a comparar contraseñas");
                 //Devolver un User de Spring Security
             return new User(
                 usager.getUsername(),
@@ -63,7 +69,9 @@ public class UserService implements UserDetailsService {
                 authorities
             );
         } catch (WebClientResponseException /*| AssertionError*/ e) {
-            throw new UsernameNotFoundException(String.format("Error de inicio de sesión: el usuario '%s' no existe en nuestro sistema", username));
+            String errorMessage = String.format("Error de inicio de sesión: el usuario '%s' no existe en nuestro sistema", username);
+            this.logger.error(errorMessage);
+            throw new UsernameNotFoundException(errorMessage);
         }
     }
 }

@@ -30,6 +30,8 @@
     <properties>
         <java.version>23</java.version>
         <spring-cloud.version>2024.0.0</spring-cloud.version>
+            <!--Este dato se busca a mano en micrometer.io-->
+        <micrometer-tracing.version>1.4.4</micrometer-tracing.version>
     </properties>
 
     <dependencies>
@@ -75,6 +77,27 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
+            <!--Para refrescar cualquier cambio en el CDI en tiempo real-->
+        <dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+            <!--Para trazabilidad distribuida-->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+            <!--Por si algún usuario maneja MacOS, descomentar si usa webflux-->
+        <!--<dependency>
+            &lt;!&ndash; https://mvnrepository.com/artifact/io.netty/netty-all &ndash;&gt;
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>-->
     </dependencies>
 
     <dependencyManagement>
@@ -83,6 +106,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+                <!--Para trazabilidad distribuida-->
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-tracing-bom</artifactId>
+                <version>${micrometer-tracing.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
