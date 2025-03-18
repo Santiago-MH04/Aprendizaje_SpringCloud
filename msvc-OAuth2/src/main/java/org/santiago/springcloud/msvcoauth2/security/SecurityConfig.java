@@ -4,6 +4,9 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -46,6 +49,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -141,6 +145,12 @@ public class SecurityConfig {
                 .scope(OidcScopes.PROFILE)
                 .scope("read")
                 .scope("write")
+                    //Para configurar la duración del token
+                .tokenSettings(TokenSettings.builder()
+                    .accessTokenTimeToLive(Duration.of(2L, ChronoUnit.HOURS))   //O se puede escoger métodos que implementan la unidad de tiempo de entrada
+                    .refreshTokenTimeToLive(Duration.of(1L, ChronoUnit.DAYS))   //El refresh token debe durar más
+                    .build()
+                )
                     //En true, hay que darle un permiso en caso de que trabajemos con formulario
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
                 .build();
