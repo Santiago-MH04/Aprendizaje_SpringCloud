@@ -38,7 +38,6 @@ public class ItemController {
     @Autowired
     private Environment env;
 
-
         //Constructores de ItemController
             /*También hay un itemService con @Qualifier("webClient")*/
     public ItemController(@Qualifier("feignClient") ItemService itemService, CircuitBreakerFactory circuitBreakerFactory) {
