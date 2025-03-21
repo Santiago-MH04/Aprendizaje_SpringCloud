@@ -5,7 +5,9 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.1</version>
+            <!--Para arreglar el problemo de descubrimiento con Gateway y Eureka-->
+        <version>3.3.2</version>
+            <!--<version>3.4.1</version>-->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.santiago.springcloud.gatewayserver.app</groupId>
@@ -29,7 +31,9 @@
 
     <properties>
         <java.version>23</java.version>
-        <spring-cloud.version>2024.0.0</spring-cloud.version>
+            <!--Para arreglar el problemo de descubrimiento con Gateway y Eureka-->
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+            <!--<spring-cloud.version>2024.0.0</spring-cloud.version>-->
             <!--Este dato se busca a mano en micrometer.io-->
         <micrometer-tracing.version>1.4.4</micrometer-tracing.version>
     </properties>
@@ -37,7 +41,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <artifactId>spring-cloud-starter-gateway-mvc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -54,15 +58,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-            <!--Para resiliencia y tolerancia a fallos-->
+            <!--Para resiliencia y tolerancia a fallos (quitar la palabra reactor en GatewayMVC)-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
         </dependency>
             <!--Para el servidor de recursos y proteger las rutas-->
         <dependency>

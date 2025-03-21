@@ -2,24 +2,39 @@ package org.santiago.springcloud.gatewayserver.app.filters.factory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.gateway.filter.GatewayFilter;
+
+/*import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
-import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;*/
+
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Component
+public class SampleCookieGatewayFilterFactory {
+        //Atributos de SampleCookieGatewayFilterFactory
+    private final Logger logger = LoggerFactory.getLogger(SampleCookieGatewayFilterFactory.class);
+
+        //Constructores de SampleCookieGatewayFilterFactory
+    public SampleCookieGatewayFilterFactory() {
+    }
+
+    //Asignadores de atributos de SampleCookieGatewayFilterFactory (setters)
+    //Lectores de atributos de SampleCookieGatewayFilterFactory (getters)
+    //Métodos de SampleCookieGatewayFilterFactory
+}
+
+/*@Component
 public class SampleCookieGatewayFilterFactory extends AbstractGatewayFilterFactory<SampleCookieGatewayFilterFactory.ConfigurationCookie> {
         //Atributos de SampleCookieGatewayFilterFactory
     private final Logger logger = LoggerFactory.getLogger(SampleCookieGatewayFilterFactory.class);
 
         //Constructores de SampleCookieGatewayFilterFactory
-            //Son dos maneras de invocar el constructor de la clase padre, con o sin parámetros
+            //Son dos maneras de invocar el constructor de la SampleCookieGatewayFilterFactory padre, con o sin parámetros
     public SampleCookieGatewayFilterFactory(Class<ConfigurationCookie> configClass) {
         super(configClass);
     }
@@ -30,16 +45,16 @@ public class SampleCookieGatewayFilterFactory extends AbstractGatewayFilterFacto
     //Asignadores de atributos de SampleCookieGatewayFilterFactory (setters)
     //Lectores de atributos de SampleCookieGatewayFilterFactory (getters)
         //Métodos de SampleCookieGatewayFilterFactory
-    /*@Override
+    *//*@Override
     public List<String> shortcutFieldOrder() {  //Para definir el orden de los atributos con que se configuró el application.yml
         return Arrays.asList("name", "value", "message");
-    }*/
+    }*//*
 
-    /*@Override
+    *//*@Override
     public String name() {
-        *//*return "ExempleCookie";*//*
-        *//*return "SampleCookie";*//*
-    }*/
+        *//**//*return "ExempleCookie";*//**//*
+        *//**//*return "SampleCookie";*//**//*
+    }*//*
 
     @Override
     public GatewayFilter apply(ConfigurationCookie config) { //Se hace así porque es una interfaz funcional. Recuerda que las interfaces con un método, son funcionales por defecto
@@ -58,7 +73,7 @@ public class SampleCookieGatewayFilterFactory extends AbstractGatewayFilterFacto
         }, 100);
     }
 
-        //Preparaos para lo más loco del mundo LAS CLASES ANIDADAS
+        //Preparaos para lo más loco del mundo LAS SampleCookieGatewayFilterFactoryS ANIDADAS
     public static class ConfigurationCookie{
             //Atributos de ConfigurationCookie
         private String name;
@@ -90,4 +105,4 @@ public class SampleCookieGatewayFilterFactory extends AbstractGatewayFilterFacto
 
         //Métodos de ConfigurationCookie
     } 
-}
+}*/

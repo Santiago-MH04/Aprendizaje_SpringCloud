@@ -1,9 +1,12 @@
 package org.santiago.springcloud.gatewayserver.app.filters;
 
+import jakarta.servlet.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
+
+/*import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;*/
+
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
@@ -11,11 +14,30 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Component
+public class SampleGlobalFilter implements Filter, Ordered {
+        //Atributos de SampleGlobalFilter
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    //Constructores de SampleGlobalFilter
+    //Asignadores de atributos de SampleGlobalFilter (setters)
+    //Lectores de atributos de SampleGlobalFilter (getters)
+        //Métodos de SampleGlobalFilter
+    @Override
+    public int getOrder() {
+        return 100;
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+
+    }
+}
+
+/*@Component
 public class SampleGlobalFilter implements GlobalFilter, Ordered {
         //Atributos de SampleGlobalFilter
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -47,7 +69,7 @@ public class SampleGlobalFilter implements GlobalFilter, Ordered {
             //El POST maneja al response
         return chain.filter(exchange).then(
             Mono.fromRunnable(() -> {
-                /*this.logger.info("token: {}", request.getHeaders().getFirst("token"));*/  //Con esta instancia inmutable del request no funciona
+                *//*this.logger.info("token: {}", request.getHeaders().getFirst("token"));*//*  //Con esta instancia inmutable del request no funciona
                 String token = mutatedExchange.getRequest().getHeaders().getFirst("token");
 
                     //Dos formas distintas de mostrar el token
@@ -69,8 +91,8 @@ public class SampleGlobalFilter implements GlobalFilter, Ordered {
                             "color",
                             ResponseCookie.from("color", "rojo").build()
                         );
-                    response.getHeaders().setContentType(MediaType.APPLICATION_JSON); /*MediaType.TEXT_PLAIN*/ //Es para un ejemplo. El estándar sigue siendo JSON
+                    response.getHeaders().setContentType(MediaType.APPLICATION_JSON); *//*MediaType.TEXT_PLAIN*//* //Es para un ejemplo. El estándar sigue siendo JSON
             })
         );
     }
-}
+}*/
