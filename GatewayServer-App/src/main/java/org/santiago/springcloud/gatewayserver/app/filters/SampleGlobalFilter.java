@@ -22,6 +22,7 @@ import java.util.Optional;
 public class SampleGlobalFilter implements Filter, Ordered {
         //Atributos de SampleGlobalFilter
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     //Constructores de SampleGlobalFilter
     //Asignadores de atributos de SampleGlobalFilter (setters)
     //Lectores de atributos de SampleGlobalFilter (getters)
@@ -33,6 +34,7 @@ public class SampleGlobalFilter implements Filter, Ordered {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        this.logger.info("Llamada del filtro SampleGlobalFactory::doFilter");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }
