@@ -15,19 +15,23 @@ import java.util.*;
 @Qualifier("webClient")
 public class ItemServiceWebClientImpl implements ItemService {
         //Atributos de ItemServiceWebClientImpl
-    private final WebClient.Builder webClient;
+    private final WebClient webClient;
+        /*private final WebClient.Builder webClient;*/
 
         //Constructores de ItemServiceWebClientImpl
-    public ItemServiceWebClientImpl(WebClient.Builder webClient) {
+    public ItemServiceWebClientImpl(WebClient webClient) {
         this.webClient = webClient;
     }
+        /*public ItemServiceWebClientImpl(WebClient.Builder webClient) {
+            this.webClient = webClient;
+        }*/
 
     //Asignadores de atributos de ItemServiceWebClientImpl (setters)
     //Lectores de atributos de ItemServiceWebClientImpl (getters)
         //Métodos de ItemServiceWebClientImpl
     @Override
     public List<Item> findAll() {
-        return this.webClient.build()
+        return this.webClient/*.build()*/
                 .get()  //Porque se trata de un método GET
                 .uri("/api/products")
                 .accept(MediaType.APPLICATION_JSON)    //Porque vamos a recibir respuestas de tipo JSON
@@ -43,7 +47,7 @@ public class ItemServiceWebClientImpl implements ItemService {
         Map<String, Long> params = new HashMap<>();
             params.put("id", id);
         /*try {*/
-            Item searchResult = this.webClient.build()
+            Item searchResult = this.webClient/*.build()*/
                     .get()  //Porque se trata de un método GET
                     .uri("/api/products/{id}", params)   //Así se puebla tratándose de un @PathVariable
                     .accept(MediaType.APPLICATION_JSON)    //Porque vamos a recibir respuestas de tipo JSON
@@ -60,7 +64,7 @@ public class ItemServiceWebClientImpl implements ItemService {
 
     @Override
     public Item save(ProductDTO product) {
-        return this.webClient.build()
+        return this.webClient/*.build()*/
                 .post()  //Porque se trata de un método POST
                 .uri("/api/products")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -76,7 +80,7 @@ public class ItemServiceWebClientImpl implements ItemService {
     public Item update(ProductDTO product, Long id) {
         Map<String, Long> params = new HashMap<>();
             params.put("id", id);
-        return this.webClient.build()
+        return this.webClient/*.build()*/
                 .put()  //Porque se trata de un método PUT
                 .uri("/api/products/{id}", params)   //Así se puebla tratándose de un @PathVariable
                 .contentType(MediaType.APPLICATION_JSON)
@@ -98,7 +102,7 @@ public class ItemServiceWebClientImpl implements ItemService {
     public void delete(Long id) {
         Map<String, Long> params = new HashMap<>();
             params.put("id", id);
-        this.webClient.build()
+        this.webClient/*.build()*/
                 .delete()   //Porque se trata de un método DELETE
                 .uri("/api/products/{id}", params) //Así se puebla tratándose de un @PathVariable
                 .retrieve()
