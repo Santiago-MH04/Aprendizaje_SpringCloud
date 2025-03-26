@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -30,8 +29,9 @@ public class ProductController {
     //Lectores de atributos de ProductController (getters)
         //Métodos de ProductController
     @GetMapping
-    public List<Product> listAllProducts() {
+    public List<Product> listAllProducts(@RequestHeader(name = "request-personalised-message", required = false) String requestHeaderMessage) {
         this.logger.info("Ingresando al método ProductController::listAllProducts");
+        this.logger.info("Request header: {}", requestHeaderMessage);
         return this.productService.findAll();
     }
     @GetMapping("/{id}")
