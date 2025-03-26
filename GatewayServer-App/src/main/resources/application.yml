@@ -47,23 +47,23 @@ spring:
     gateway:
       mvc:
         routes:
-          - id: msvc-products
-            uri: lb://msvc-products
-            predicates:
-            - Path=/api/products/**
+        #   - id: msvc-products
+        #     uri: lb://msvc-products
+        #     predicates:
+        #     - Path=/api/products/**
     #       - Header=token, ^[a-zA-Z0-9A-Z0-9]+(-[a-zA-Z0-9]+)*$
     #       - Method=GET, POST
     #       - Query=color, verde  #Si no se envía el parámetro «color» con el valor «azul», se arroja un 404
     #       - Cookie=color, azul
-            filters:
+        #     filters:
     #       - StripPrefix=2
     #       - ExempleCookie=user-cookie, Santiago, pero mira qué mensaje personalizado tan bonito
     #       - CircuitBreaker=products
-            - name: CircuitBreaker #Tiene que ir este nombre (filtro de fábrica de Spring Framework)
-              args:
-                name: products  #Este es el ID que le asigno a este cortocircuito
-                statusCodes: 500  #Recordar que maneja varios
-                fallbackUri: forward:/api/items/4 #De aquí la importancia de tener rutas libres relacionadas al microservicio que puede fallar. Mandarlo al mismo puede generar un bucle infinito
+        #     - name: CircuitBreaker #Tiene que ir este nombre (filtro de fábrica de Spring Framework)
+        #       args:
+        #         name: products  #Este es el ID que le asigno a este cortocircuito
+        #         statusCodes: 500  #Recordar que maneja varios
+        #         fallbackUri: forward:/api/items/4 #De aquí la importancia de tener rutas libres relacionadas al microservicio que puede fallar. Mandarlo al mismo puede generar un bucle infinito
 #           - name: SampleCookie #Va sólo el prefijo del filtro personalizado
 #             args:
 #               name: user-cookie
