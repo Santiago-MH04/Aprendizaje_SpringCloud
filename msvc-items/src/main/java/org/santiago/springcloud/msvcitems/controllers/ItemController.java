@@ -53,8 +53,8 @@ public class ItemController {
         Map<String, String> json = new HashMap<>();
             json.put("text", this.text);    //Debe imprimir «setting development environment»
             json.put("port", port); //Debe imprimir «8005»
-        this.logger.info(String.format("Imprimiendo un texto de configuración externo: '%s'", this.text));
-        this.logger.info(String.format("Puerto configuración externo: '%s'", port));
+        this.logger.info("Imprimiendo un texto de configuración externo: '{}'", this.text);
+        this.logger.info("Puerto configuración externo: '{}'", port);
 
         if(this.env.getActiveProfiles().length > 0 && this.env.getActiveProfiles()[0].equals("dev")){
              json.put("author.name", env.getProperty("configuration.author.name"));

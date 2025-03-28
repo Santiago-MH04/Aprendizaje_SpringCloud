@@ -13,10 +13,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import reactor.core.publisher.Mono;
 
-/*import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;*/
-
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,22 +55,4 @@ public class SecurityConfig {
         ))
         .build();
     }
-
-        //Para el caso extraño que no se use programación reactiva
-    /*@Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/authorized", "/logout").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/products", "/api/items", "/api/users").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/products/{id}", "/api/items/{id}", "/api/users/{id}").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/api/products/**", "/api/items/**", "/api/users/**").hasRole("ADMIN")
-                .anyRequest().authenticated();
-        })
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .csrf(csrf -> csrf.disable())
-        .oauth2Login(login -> login.loginPage("/oauth2/authorization/client-app"))
-        .oauth2Client(withDefaults())
-        .oauth2ResourceServer(withDefaults())
-        .build();
-    }*/
 }

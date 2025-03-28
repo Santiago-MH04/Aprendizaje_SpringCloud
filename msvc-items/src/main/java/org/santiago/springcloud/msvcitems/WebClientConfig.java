@@ -24,7 +24,7 @@ public class WebClientConfig {
         ReactorLoadBalancerExchangeFilterFunction lbFunction,
         @Value("${config.baseurl.endpoint.msvc-products}") String contextPath
     ){  //Este webClientBuilder es generado automáticamente por Spring Boot
-        return WebClient.builder()
+        return webClientBuilder
             .baseUrl(contextPath)
             .filter(lbFunction)
             .build();

@@ -119,6 +119,11 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
+            <!--Para soporte de observabilidad-->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-micrometer</artifactId>
+        </dependency>
         <!--Por si algún usuario maneja MacOS, descomentar si usa webflux-->
         <!--<dependency>
             &lt;!&ndash; https://mvnrepository.com/artifact/io.netty/netty-all &ndash;&gt;
