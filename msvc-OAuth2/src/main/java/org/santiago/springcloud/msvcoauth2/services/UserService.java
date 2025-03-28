@@ -22,13 +22,17 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements UserDetailsService {
         //Atributos de UserService
-    private final WebClient.Builder webClient;
+    private final WebClient webClient;
+        /*private final WebClient.Builder webClient;*/
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
         //Constructores de UserService
-    public UserService(WebClient.Builder webClient) {
+    public UserService(WebClient webClient) {
         this.webClient = webClient;
     }
+        /*public UserService(WebClient.Builder webClient) {
+            this.webClient = webClient;
+        }*/
 
     //Asignadores de atributos de UserService (setters)
     //Lectores de atributos de UserService (getters)
@@ -40,7 +44,7 @@ public class UserService implements UserDetailsService {
         try {
                 //Obtener el usuario de base de datos con WebClient
             this.logger.info("Ingresando al método UserService::loadUserByUsername");
-            Usager usager = this.webClient.build()
+            Usager usager = this.webClient/*.build()*/
                 .get()
                 .uri("/api/usagers/username/{username}", params)
                 .accept(MediaType.APPLICATION_JSON)
