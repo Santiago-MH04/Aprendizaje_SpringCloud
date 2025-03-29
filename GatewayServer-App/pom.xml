@@ -92,9 +92,14 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
-            <!--Por si algún usuario maneja MacOS, descomentar si usa webflux-->
+        <!--Para UI de la trazabilidad-->
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>
+        <!--Por si algún usuario maneja MacOS, descomentar si usa webflux-->
         <!--<dependency>
-            &lt;!&ndash; https://mvnrepository.com/artifact/io.netty/netty-all &ndash;&gt;
+        &lt;!&ndash; https://mvnrepository.com/artifact/io.netty/netty-all &ndash;&gt;
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>-->
