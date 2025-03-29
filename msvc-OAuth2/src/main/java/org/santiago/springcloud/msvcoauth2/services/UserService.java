@@ -1,5 +1,6 @@
 package org.santiago.springcloud.msvcoauth2.services;
 
+import io.micrometer.tracing.Tracer;
 import org.santiago.springcloud.libs.msvccommons.entities.Usager;
 
 import org.slf4j.Logger;
@@ -25,10 +26,12 @@ public class UserService implements UserDetailsService {
     private final WebClient webClient;
         /*private final WebClient.Builder webClient;*/
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Tracer tracer;
 
         //Constructores de UserService
-    public UserService(WebClient webClient) {
+    public UserService(WebClient webClient, Tracer tracer) {
         this.webClient = webClient;
+        this.tracer = tracer;
     }
         /*public UserService(WebClient.Builder webClient) {
             this.webClient = webClient;
@@ -62,6 +65,9 @@ public class UserService implements UserDetailsService {
                     /*.collect(Collectors.toList());*/
 
             this.logger.info("En el método UserService::loadUserByUsername, vamos a comparar contraseñas");
+            this.tracer.currentSpan()
+                .tag("success.login", "Iniciando sesión correctamente");
+
                 //Devolver un User de Spring Security
             return new User(
                 usager.getUsername(),
@@ -75,6 +81,8 @@ public class UserService implements UserDetailsService {
         } catch (WebClientResponseException /*| AssertionError*/ e) {
             String errorMessage = String.format("Error de inicio de sesión: el usuario '%s' no existe en nuestro sistema", username);
             this.logger.error(errorMessage);
+            this.tracer.currentSpan()
+                .tag("error.login.message", errorMessage.concat(": ").concat(e.getMessage()));
             throw new UsernameNotFoundException(errorMessage);
         }
     }
