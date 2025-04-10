@@ -1,1 +1,3 @@
 .idea/
+    #Ignorar cualquier jar de Zipkin
+**/zipkin-server-3.5.0-exec.jar
