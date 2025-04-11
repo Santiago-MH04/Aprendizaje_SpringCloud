@@ -1,7 +1,6 @@
 package org.santiago.springcloud.msvcproducts.services.implementations;
 
-/*import org.santiago.springcloud.msvcproducts.entities.Product;*/  //Es para usar la clase Product de la librería Commons
-import org.santiago.springcloud.libs.msvccommons.entities.Product;
+import org.santiago.springcloud.msvcproducts.entities.Product;
 
 import org.santiago.springcloud.msvcproducts.repositories.ProductRepository;
 import org.santiago.springcloud.msvcproducts.services.abstractions.ProductService;
@@ -16,8 +15,8 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
         //Atributos de ProductServiceImpl
-    final private ProductRepository repoProduct;    //La buena práctica recomienda hacerlo final. Pero esto obliga a descartar el constructor vacío
-    final private Environment environment;    //Como la interfaz Environment hace parte del contexto de Spring, al inyectar una instancia de ésta, la referencia no es nula
+    private final ProductRepository repoProduct;    //La buena práctica recomienda hacerlo final. Pero esto obliga a descartar el constructor vacío
+    private final Environment environment;    //Como la interfaz Environment hace parte del contexto de Spring, al inyectar una instancia de ésta, la referencia no es nula
 
         //Constructores de ProductServiceImpl
     public ProductServiceImpl(ProductRepository productRepository, Environment environment) {

@@ -1,7 +1,6 @@
 package org.santiago.springcloud.msvcproducts.services.abstractions;
 
-/*import org.santiago.springcloud.msvcproducts.entities.Product;*/  //Es para usar la clase Product de la librería Commons
-import org.santiago.springcloud.libs.msvccommons.entities.Product;
+import org.santiago.springcloud.msvcproducts.entities.Product;
 
 import java.util.List;
 import java.util.Optional;
