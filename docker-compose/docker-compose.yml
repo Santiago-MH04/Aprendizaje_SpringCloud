@@ -14,7 +14,8 @@ services:
       - MYSQL_ROOT_PASSWORD=sasa
   eureka-server:
     container_name: eureka-server
-    image: eureka-server:latest
+    image: santiagomh04/eureka-server-p:v1
+    #image: eureka-server:latest
     ports:
       - "8761:8761"
     restart: always
@@ -22,7 +23,8 @@ services:
       - springcloud
   config-server:
     container_name: config-server
-    image: config-server:v1
+    image: santiagomh04/config-server-p:v1
+    #image: config-server:v1
     ports:
       - "8888:8888"
     restart: always
@@ -30,7 +32,8 @@ services:
       - springcloud
   msvc-products:
     #container_name: msvc-products
-    image: msvc-products:v1
+    image: santiagomh04/msvc-products-p:v1
+    #image: msvc-products:v1
     deploy:
       replicas: 3
     restart: always
@@ -41,7 +44,8 @@ services:
       - eureka-server
   msvc-items:
     container_name: msvc-items
-    image: msvc-items:latest
+    image: santiagomh04/msvc-items-p:v1
+    #image: msvc-items:latest
     ports:  #Para manejar balanceo de carga (los perfiles van configurados desde el jar en el Dockerfile)
       - "8002:8002"
       - "8005:8005"
